@@ -1,10 +1,10 @@
-name := "akka_training"
+name := "akka-training"
 
 version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.12.6"
 
-fork := true
+//fork := true
 
 val akkaVersion = "2.5.12"
 
@@ -33,5 +33,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion
     withSources() withJavadoc(),
   "com.typesafe.akka" %% "akka-cluster-metrics" % akkaVersion
-    withSources() withJavadoc()
+    withSources() withJavadoc(),
+  "com.typesafe.akka" %% "akka-http" % "10.1.3",
+  "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.3",
+  "com.typesafe.akka" %% "akka-http-xml" % "10.1.3"
 )
