@@ -16,8 +16,19 @@ object AskActorRunner {
     val actorRef = actorSystem.actorOf(props, "askActor")
     implicit val timeout = Timeout(2 seconds)
     
-    val future = actorRef ? Add(3, 4)
-    future.mapTo[Int].onComplete {
+    val future1:Future[Any] = actorRef ? Add(3, 4)
+    val future2:Future[Any] = actorRef ? Subtract(10, 2)
+
+    val future3:Future[Int] = future1.mapTo[Int].flatMap(x => future2.mapTo[Int].map(y => x * y))
+
+    future3.onComplete {
+      case Success(i) => println(s"Answer is: $i")
+      case Failure(t) => println(s"Failure is: ${t.getMessage}")
+    }
+
+    val future4:Future[Int] = for (x <- future1.mapTo[Int]; y <- future2.mapTo[Int]) yield x * y
+
+    future4.onComplete {
       case Success(i) => println(s"Answer is: $i")
       case Failure(t) => println(s"Failure is: ${t.getMessage}")
     }
