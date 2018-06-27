@@ -701,3 +701,6 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 
+.cache-tests
+.classpath
+.project
