@@ -8,6 +8,7 @@ class ConfigSpec extends FunSuite with Matchers {
     val str = """a{b = 4}"""
     val config = ConfigFactory.parseString(str)
     config.getInt("a.b") should be (4)
+    config.getString("a.b") should be ("4")
   }
 
   test("Case 2: parse of configuration string in a dot format") {
@@ -39,16 +40,20 @@ class ConfigSpec extends FunSuite with Matchers {
 
   test("""Case 6: You can also bring up a context within a file to use
          |  different settings""".stripMargin) {
-    val config = ConfigFactory.load("sample2").getConfig("context-b")
-    config.getDouble("a.b.c") should be (10.0)
+    val config = ConfigFactory
+                     .load("sample3")
+                     .getConfig("context-b")
+    config.getDouble("a.b.c") should be (10d)
   }
 
   test("""Case 7: You can also bring up a context within a file to use
       |  different settings, and with a fallback so
       |  get a setting""".stripMargin) {
     val originalConfig = ConfigFactory.load("sample3")
-    val config = originalConfig.getConfig("context-b").withFallback(originalConfig)
-    originalConfig.getBoolean("a.b.d") should be (true)
+    val config = originalConfig
+                 .getConfig("context-b")
+                 .withFallback(originalConfig)
+    config.getBoolean("a.b.d") should be (true)
   }
 
   test("""Case 8: Here we are you using the Config library to read in JSON""") {
