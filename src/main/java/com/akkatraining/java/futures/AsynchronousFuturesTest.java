@@ -24,6 +24,7 @@ public class AsynchronousFuturesTest {
                             Thread.currentThread().getName());
         }
 
+        //The future is done
         try {
             Integer result = future.get();
             System.out.println("result = " + result);
@@ -37,6 +38,8 @@ public class AsynchronousFuturesTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        cachedThreadPool.shutdown();
         System.exit(0);
     }
 }

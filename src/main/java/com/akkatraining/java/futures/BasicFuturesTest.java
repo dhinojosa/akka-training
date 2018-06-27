@@ -23,13 +23,16 @@ public class BasicFuturesTest {
         Future<Integer> future = fixedThreadPool.submit(callable);
 
         //This will block
-        Integer result = null; //block
+        Integer result = null; //block, not a good thing usually
         try {
             result = future.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         System.out.println("result = " + result);
+
+        fixedThreadPool.shutdown();
+
         System.exit(0);
     }
 }
