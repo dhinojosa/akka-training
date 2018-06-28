@@ -1,12 +1,10 @@
-package com.akkatraining.scala.mailboxes
+package com.akkatraining.scala.remoting
 
 import akka.actor.Actor
-import akka.dispatch.{BoundedMessageQueueSemantics, RequiresMessageQueue}
 import akka.event.Logging
 
 
-
-class MailboxActor extends Actor {
+class ActorB extends Actor {
   val log = Logging(context.system, this)
 
   override def receive: Receive = {

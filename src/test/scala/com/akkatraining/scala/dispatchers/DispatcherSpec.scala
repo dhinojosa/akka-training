@@ -22,7 +22,7 @@ class DispatcherSpec extends FunSuite with Matchers {
       actor2 ! i
     }
 
-    Thread.sleep(60 * 60 * 1000)
+    Thread.sleep(2 * 60 * 1000) //2 minutes
     Await.ready(actorSystem.terminate(), 10 seconds)
   }
 
@@ -41,7 +41,7 @@ class DispatcherSpec extends FunSuite with Matchers {
       actor2 ! i
     }
 
-    Thread.sleep(60 * 60 * 1000)
+    Thread.sleep(2 * 60 * 1000) //2 minutes
     Await.ready(actorSystem.terminate(), 10 seconds)
   }
 
@@ -53,6 +53,8 @@ class DispatcherSpec extends FunSuite with Matchers {
     val actorSystem = ActorSystem("My-System",
       config.getConfig("custom-dispatcher-akka")
         .withFallback(config)) //Using a specialized dispatcher
+
+
     val actor1 = actorSystem.actorOf(Props(new SeparateDispatcherFutureActor))
     val actor2 = actorSystem.actorOf(Props(new PrintActor))
 
@@ -61,7 +63,7 @@ class DispatcherSpec extends FunSuite with Matchers {
       actor2 ! i
     }
 
-    Thread.sleep(60 * 60 * 1000)
+    Thread.sleep(2 * 60 * 1000) //2 minutes
     Await.ready(actorSystem.terminate(), 10 seconds)
   }
 }

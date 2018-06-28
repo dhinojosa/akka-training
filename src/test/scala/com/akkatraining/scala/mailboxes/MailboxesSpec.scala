@@ -24,7 +24,8 @@ class MailboxesSpec extends FunSuite with Matchers {
       |  where configured.""".stripMargin) {
     val config = ConfigFactory.load()
     val actorSystem = ActorSystem("actorSystem", config
-      .getConfig("custom-mailbox-akka").withFallback(config))
+      .getConfig("custom-mailbox-akka")
+      .withFallback(config))
     val myActor = actorSystem.actorOf(Props[MailboxActor], "mailboxActor")
     for (i <- 1 to 50) myActor ! s"Ping $i"
     Thread.sleep(3000)
@@ -46,7 +47,7 @@ class MailboxesSpec extends FunSuite with Matchers {
 
   test(
     """Case 4: Using a different mailbox given a
-      |  contraint with the actor, so that you are
+      |  constraint with the actor, so that you are
       |  forced to use a specific type""".stripMargin) {
 
     val config = ConfigFactory.load()
@@ -56,7 +57,7 @@ class MailboxesSpec extends FunSuite with Matchers {
     val myActor = actorSystem
       .actorOf(Props[MailboxWithRequirementActor], "mailboxActor4")
     for (i <- 1 to 50) myActor ! s"Ping $i"
-    Thread.sleep(3000)
+    Thread.sleep(30000)
     Await.ready(actorSystem.terminate(), 3 seconds)
   }
 
@@ -65,6 +66,8 @@ class MailboxesSpec extends FunSuite with Matchers {
     val config = ConfigFactory.load()
     val actorSystem = ActorSystem("actorSystem", config
       .getConfig("custom-priority-mailbox-akka").withFallback(config))
+
+
     val myActor = actorSystem.actorOf(Props[MailboxActor]
       .withMailbox("custom-priority-mailbox"), "mailboxActor2")
     import actorSystem.dispatcher
@@ -82,7 +85,7 @@ class MailboxesSpec extends FunSuite with Matchers {
       for (i <- 1 to 50) myActor ! messages(Random.nextInt(messages.length - 1))
     }
 
-    Thread.sleep(3000)
+    Thread.sleep(30000)
     Await.ready(actorSystem.terminate(), 3 seconds)
   }
 }
