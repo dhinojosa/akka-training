@@ -5236,7 +5236,7 @@ the package <code>com.akkatraining.scala.conversation</code> called <code>ActorA
 <div class="ulist">
 <ul>
 <li>
-<p>When the <code>String</code> <code>"hello"</code> is received tell the <code>sender</code>, <code>"Hello to You"</code></p>
+<p>When the <code>String</code> <code>"Hello"</code> is received tell the <code>sender</code>, <code>"Hello to You"</code></p>
 </li>
 <li>
 <p>When the <code>String</code> <code>"How are you doing?"</code> tell the <code>sender</code>, "Fine"</p>
@@ -5313,10 +5313,12 @@ the package <code>com.akkatraining.scala.conversation</code> called <code>ActorC
 </td>
 <td class="content">
 If there are issued it may be due to spelling, messages are case sensitive.
-<strong>Step 3:</strong> Add a key listener to shut down the <code>actorSystem</code> when the <strong><em>ENTER</em></strong> key is pressed
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p><strong>Step 3:</strong> Add a key listener to shut down the <code>actorSystem</code> when the <strong><em>ENTER</em></strong> key is pressed</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -5598,7 +5600,7 @@ In order to avoid any conflicts, it is up to you, the programmer, to decide in w
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.futures.FutureSpec -- -z &quot;Case 1:&quot;</code></pre>
+<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.futures.FuturesSpec -- -z &quot;Case 1:&quot;</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -7281,7 +7283,7 @@ This should look very familiar in the movie we saw, Erlang the Movie
 <div class="listingblock">
 <div class="title">Using <code>mapTo</code></div>
 <div class="content">
-<pre class="pygments highlight"><code data-lang="scala"><span></span><span class="tok-k">val</span> <span class="tok-n">future</span> <span class="tok-k">=</span> <span class="tok-n">actorRef</span> <span class="tok-o">?</span> <span class="tok-nc">LookupZipCode</span><span class="tok-o">(</span><span class="tok-s">&quot;123 Main St&quot;</span><span class="tok-o">,</span> <span class="tok-s">&quot;San Diego&quot;</span><span class="tok-o">,</span> <span class="tok-s">&quot;CA&quot;</span><span class="tok-o">)</span>
+<pre class="pygments highlight"><code data-lang="scala"><span></span><span class="tok-k">val</span> <span class="tok-n">future</span> <span class="tok-k">=</span> <span class="tok-n">actorRef</span> <span class="tok-o">?</span> <span class="tok-nc">Address</span><span class="tok-o">(</span><span class="tok-s">&quot;123 Main St&quot;</span><span class="tok-o">,</span> <span class="tok-s">&quot;San Diego&quot;</span><span class="tok-o">,</span> <span class="tok-s">&quot;CA&quot;</span><span class="tok-o">)</span>
 <span class="tok-n">future</span><span class="tok-o">.</span><span class="tok-n">mapTo</span><span class="tok-o">[</span><span class="tok-kt">String</span><span class="tok-o">]</span></code></pre>
 </div>
 </div>
@@ -7389,7 +7391,7 @@ in the package <code>com.akkatraining.scala.ask</code> locate the <code>AskActor
 some of the <code>Future</code> techniques we discussed.</p>
 </div>
 <div class="paragraph">
-<p><strong>Step 5:</strong> Implement a "Press Enter to Terminate" callback like we did in the previous lab</p>
+<p><strong>Step 5:</strong> Place code that shuts down the <code>ActorSystem</code> with <code>Await.ready</code> or <code>AwaitResult</code></p>
 </div>
 <div class="paragraph">
 <p><strong>Step 6:</strong> Run your lab using the following at the command line, or an IDE.</p>
@@ -7678,7 +7680,7 @@ termination of one or several actors</p>
 <span class="tok-k">try</span> <span class="tok-o">{</span>
   <span class="tok-k">val</span> <span class="tok-n">stopped</span><span class="tok-k">:</span> <span class="tok-kt">Future</span><span class="tok-o">[</span><span class="tok-kt">Boolean</span><span class="tok-o">]</span> <span class="tok-k">=</span>
       <span class="tok-n">gracefulStop</span><span class="tok-o">(</span><span class="tok-n">actorRef</span><span class="tok-o">,</span> <span class="tok-mi">5</span> <span class="tok-n">seconds</span><span class="tok-o">,</span>
-                   <span class="tok-nc">Manager</span><span class="tok-o">.</span><span class="tok-nc">Shutdown</span><span class="tok-o">)</span>
+                   <span class="tok-nc">PoisonPill</span><span class="tok-o">.</span><span class="tok-n">instance</span><span class="tok-o">)</span>
   <span class="tok-nc">Await</span><span class="tok-o">.</span><span class="tok-n">result</span><span class="tok-o">(</span><span class="tok-n">stopped</span><span class="tok-o">,</span> <span class="tok-mi">6</span> <span class="tok-n">seconds</span><span class="tok-o">)</span>
   <span class="tok-c1">// the actor has been stopped</span>
 <span class="tok-o">}</span> <span class="tok-k">catch</span> <span class="tok-o">{</span>
@@ -7822,7 +7824,7 @@ locate the <code>StoppingSpec</code> ang go to the specification in "Case 1:"</p
 <p>Send five <code>String</code> messages to <code>VictimActor</code> and then <code>stop</code> the <code>Victim Actor</code></p>
 </li>
 <li>
-<p>Place code that shuts down the <code>ActorSystem</code> with <code>Press Enter to terminate</code> behavior</p>
+<p>Place code that shuts down the <code>ActorSystem</code> with <code>Await.ready</code> or <code>AwaitResult</code></p>
 </li>
 </ul>
 </div>
@@ -7867,7 +7869,7 @@ locate the <code>StoppingSpec</code> and go to the specification in "Case 2:"</p
 <p>Send five <code>String</code> messages to <code>VictimActor</code> and then send a <code>PoisonPill</code> instance</p>
 </li>
 <li>
-<p>Place code that shuts down the <code>ActorSystem</code> with <code>Press Enter to terminate</code> behavior</p>
+<p>Place code that shuts down the <code>ActorSystem</code> with <code>Await.ready</code> or <code>AwaitResult</code></p>
 </li>
 </ul>
 </div>
@@ -7918,7 +7920,7 @@ locate the <code>StoppingSpec</code> and go to the specification in "Case 3:"</p
 <p>Capture the <code>Future</code> of a graceful stop and either print the value of the <code>Future</code> or make an assertion on its value</p>
 </li>
 <li>
-<p>Place code that shuts down the <code>ActorSystem</code> with <code>Press Enter to terminate</code> behavior</p>
+<p>Place code that shuts down the <code>ActorSystem</code> with <code>Await.ready</code> or <code>AwaitResult</code></p>
 </li>
 </ul>
 </div>
@@ -8280,7 +8282,7 @@ locate the <code>FaultToleranceSpec</code> and go to the specification in "Lab 1
 <p>Retain the <code>Future</code> from the ask, and once returned send the child the message <code>"IllegalArgumentException"</code></p>
 </li>
 <li>
-<p>Place code that shuts down the <code>ActorSystem</code> with <code>Press Enter to terminate</code> behavior</p>
+<p>Place code that shuts down the <code>ActorSystem</code> with <code>Await.ready</code> or <code>Await.result</code></p>
 </li>
 </ul>
 </div>
@@ -8370,7 +8372,7 @@ locate the <code>FaultToleranceSpec</code> and go to the specification in "Lab 2
 <p>Retain the <code>Future</code> from the ask, and once returned send the child the message <code>"IllegalArgumentException"</code></p>
 </li>
 <li>
-<p>Place code that shuts down the <code>ActorSystem</code> with <code>Press Enter to terminate</code> behavior</p>
+<p>Place code that shuts down the <code>ActorSystem</code> with <code>Await.ready</code> or <code>Await.result</code></p>
 </li>
 </ul>
 </div>
@@ -8418,7 +8420,7 @@ locate the <code>FaultToleranceSpec</code> and go to the specification in "Lab 3
 <p>Retain the <code>Future</code> from the ask, and once returned <strong><em>kill</em></strong> the <code>ChildActor</code></p>
 </li>
 <li>
-<p>Place code that shuts down the <code>ActorSystem</code> with <code>Press Enter to terminate</code> behavior</p>
+<p>Place code that shuts down the <code>ActorSystem</code> with <code>Await.ready</code> or <code>AwaitResult</code></p>
 </li>
 </ul>
 </div>
@@ -8443,7 +8445,7 @@ locate the <code>FaultToleranceSpec</code> and go to the specification in "Lab 3
 </div>
 </div>
 <div class="sect1">
-<h2 id="_making_events_happens">Making events happens</h2>
+<h2 id="_making_events_happen">Making events happen</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -8590,7 +8592,7 @@ locate the <code>SchedulersSpec</code> and go to the specification in "Lab 1:&#8
 <p><strong>Step 3:</strong> Sleep on the <code>main</code> thread for 30 seconds, and then cancel the scheduler</p>
 </div>
 <div class="paragraph">
-<p><strong>Step 4:</strong> Shut down the <code>actorSystem</code></p>
+<p><strong>Step 4:</strong> Shut down the <code>actorSystem</code> appropriately</p>
 </div>
 <div class="paragraph">
 <p><strong>Step 5:</strong> Run the test in either your IDE or in SBT using the following</p>
@@ -9433,7 +9435,7 @@ locate the <code>MailboxSpec</code> and go to the specification in "Case 1:&#823
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.faulttolerance.MailboxesSpec -- -z &quot;Case 1:&quot;</code></pre>
+<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.mailboxes.MailboxesSpec -- -z &quot;Case 1:&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9457,7 +9459,7 @@ configuration <code>custom-mailbox-akka</code> and see how it is mapped to <code
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.faulttolerance.MailboxesSpec -- -z &quot;Case 2:&quot;</code></pre>
+<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.mailboxes.MailboxesSpec -- -z &quot;Case 2:&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9482,7 +9484,7 @@ in <em>application.conf</em> but when we create the <code>Actor</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.faulttolerance.MailboxesSpec -- -z &quot;Case 3:&quot;</code></pre>
+<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.mailboxes.MailboxesSpec -- -z &quot;Case 3:&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9512,7 +9514,7 @@ the <em>application.conf</em> in Step 2.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.faulttolerance.MailboxesSpec -- -z &quot;Case 4:&quot;</code></pre>
+<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.mailboxes.MailboxesSpec -- -z &quot;Case 4:&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9540,7 +9542,7 @@ locate <code>MyPriorityMailbox</code> and see how it is implemented</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.faulttolerance.MailboxesSpec -- -z &quot;Case 5:&quot;</code></pre>
+<pre class="pygments highlight"><code data-lang="sbt"><span></span>&gt; testOnly com.akkatraining.scala.mailboxes.MailboxesSpec -- -z &quot;Case 5:&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -12469,7 +12471,7 @@ and enter whatever username but with the password: <code>AkkaTime</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-06-25 08:49:04 PDT
+Last updated 2018-06-28 08:27:30 PDT
 </div>
 </div>
 </body>
