@@ -11,9 +11,10 @@ import scala.concurrent.duration._
 object ClusterClientRunner extends App {
 
   val rootConfig = ConfigFactory.load()
-  val actorSystem = ActorSystem("Non-Member-Actor-System"
-    , rootConfig.getConfig("client")
+  val actorSystem = ActorSystem("Non-Member-Actor-System",
+    rootConfig.getConfig("client")
     .withFallback(rootConfig))
+
   val initialContacts = Set(
     ActorPath.fromString("akka.tcp://My-Cluster@127.0.0.1:2552/system/receptionist"),
     ActorPath.fromString("akka.tcp://My-Cluster@127.0.0.1:2551/system/receptionist"))
