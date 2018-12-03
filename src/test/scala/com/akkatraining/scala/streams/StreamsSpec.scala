@@ -88,7 +88,7 @@ class StreamsSpec extends FunSuite with Matchers {
       .map { s => Thread.sleep(1000); s }
       .to(Sink.foreach(println))
     result.run()
-    Thread.sleep(5000)
+    Thread.sleep(50000)
   }
 
   test("Case 9: A stream can begin with any Source, for one we can use a " +
